@@ -61,3 +61,16 @@ export async function openDATABASE(db) {
         );
     `)
 }
+
+export async function insertTable(db, tables) {
+    for (let i = 0; i < tables.length; i++) {
+        await db.runAsync(
+            `INSERT OR IGNORE INTO Tables (table_name, table_status) VALUES (?, ?)`,[tables[i].table_name,tables[i].status]
+        )
+    }
+}
+
+export async function getAllTable(db) {
+    const result = await db.getAllAsync(`SELECT * FROM Tables`)
+    return result //คืนค่าเป็น Array ที่เก็บ Objects 
+}

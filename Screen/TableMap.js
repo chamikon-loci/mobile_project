@@ -1,7 +1,73 @@
 import { View, Text , StyleSheet , TouchableOpacity} from 'react-native'
 import { colors } from '../src/style/theme'
+import { getAllTable, insertTable } from '../database/db.js'
+import { useSQLiteContext } from 'expo-sqlite'
+import { useEffect, useState } from 'react'
 
 function TableMap() {
+
+    const db = useSQLiteContext()
+
+    const initTables = [
+        { table_name: 'T1', 
+        status: 'available'
+        },
+        { table_name: 'T2', 
+        status: 'available'
+        },
+        { table_name: 'T3', 
+        status: 'available'
+        },
+        { table_name: 'T4', 
+        status: 'available'
+        },
+        { table_name: 'T5', 
+        status: 'available'
+        },
+        { table_name: 'T6', 
+        status: 'available'
+        },
+        { table_name: 'T7', 
+        status: 'available'
+        },
+        { table_name: 'T8', 
+        status: 'available'
+        },
+        { table_name: 'T9', 
+        status: 'available'
+        },
+        { table_name: 'T10', 
+        status: 'available'
+        },
+        { table_name: 'T11', 
+        status: 'available'
+        },
+        { table_name: 'T12', 
+        status: 'available'
+        },
+        { table_name: 'T13', 
+        status: 'available'
+        },
+        { table_name: 'T14', 
+        status: 'available'
+        },
+        { table_name: 'T15', 
+        status: 'available'
+        },
+    ]
+    
+    const [tables, setTables] = useState([])
+
+    useEffect(() => {
+        const loadTable = async () => {
+            await insertTable(db, initTables)
+
+            const AllTables = await getAllTable(db)
+            setTables(AllTables)
+        }
+        loadTable()
+    }, [])
+
     return (
         <View style={style.content}>
             <View style={style.top}>
@@ -13,98 +79,41 @@ function TableMap() {
                 <Text style={{fontSize: 15}}>จำนวนโต๊ะที่ไม่ว่าง : 2  <View style={{backgroundColor:colors.dim,width:15,height:15}}></View></Text>
             </View>
 
-            <View style={style.middle}>
-                <TouchableOpacity style={style.tablenull}><Text style={style.numtable}>1</Text></TouchableOpacity>
-                <TouchableOpacity style={style.tablenull}><Text style={style.numtable}>2</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>3</Text></TouchableOpacity>
-
+            <View style={style.tables}>
+                {tables.map((table) => (
+                    <TouchableOpacity
+                        key={table.table_id}
+                        style={style.table_btn}
+                    >
+                        <Text style={style.numtable}>{table.table_name}</Text>
+                    </TouchableOpacity>
+                ))}
             </View>
-
-            <View style={style.middle}>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>4</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>5</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>6</Text></TouchableOpacity>
-
-            </View>
-
-            <View style={style.middle}>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>7</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>8</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>9</Text></TouchableOpacity>
-
-            </View>
-
-
-            <View style={style.middle}>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>10</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>11</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>12</Text></TouchableOpacity>
-
-            </View>
-
-
-            <View style={style.middle}>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>13</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>14</Text></TouchableOpacity>
-                <TouchableOpacity style={style.table}><Text style={style.numtable}>15</Text></TouchableOpacity>
-
-            </View>
-
-
-
-            
-            
         </View>
     )
 }
 
 const style = StyleSheet.create({
     top:{
-        
         alignItems:'center',
         marginTop:20,
         marginBottom:10
-        
     },
-    content:{
 
+    tables: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
     },
-    table:{
-        
-       
-        width:50,
-        height:50,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:colors.red,
-    },
-    tablenull:{
-       
-        width:50,
-        height:50,
-        alignItems:'center',
-        justifyContent:'center',
-        backgroundColor:colors.dim,
-    },
-    numtable:{
-        fontSize:30,
-         color:colors.text,
-    },
-    middle:{
-        
-        justifyContent:'space-around',
-        flexDirection:'row',
-        
-        marginBottom:30,
-    },
-    statustable:{
-        marginLeft:20,
-        marginBottom:30,
-        
-    }
-    
-    
 
+    table_btn: {
+        width: 80,
+        height: 80,
+        backgroundColor: colors.dim,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    
 })
 
 

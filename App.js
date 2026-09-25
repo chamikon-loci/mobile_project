@@ -1,8 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View,StyleSheet } from 'react-native';
 import { SQLiteProvider } from 'expo-sqlite';
 import { DATABASE_NAME, openDATABASE } from './database/db.js'
+
 import TableMap from './Screen/TableMap.js'
+
 export default function App() {
+  
   return (
     <SQLiteProvider databaseName={DATABASE_NAME} onInit={openDATABASE}>
       <View>
