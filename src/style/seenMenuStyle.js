@@ -42,6 +42,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     aspectRatio: 1,
   },
+  
   footer: {
     flexDirection: "row",
     alignItems: "center",
