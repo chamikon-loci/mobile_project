@@ -1,0 +1,120 @@
+import { View , StyleSheet, TouchableOpacity ,Image,Text, ImageBackground, ScrollView} from "react-native"
+import { colors } from "../src/style/theme"
+
+function Menu({changepage}){
+  return(
+  
+  <ImageBackground source={require('../photo/order.jpg')} style={styles.content}>
+    <TouchableOpacity style={{marginLeft:10}} onPress={()=>{changepage('Login')}}>
+        <Image source={require('../photo/back.png')} style={styles.picback} ></Image>
+      </TouchableOpacity>
+    <View style={styles.top}>
+    <View style={{boxShadow: '0 0 10px rgba(0,0,0,0.5)',paddingLeft:20,paddingRight:20,borderRadius:50}}>
+      <Text style={styles.title}>Order</Text>
+    </View>
+    </View>
+
+      <View style={styles.bottombar}>
+                  <TouchableOpacity style={styles.page} onPress={()=>{changepage('TableMap')}}><Text style={styles.titlepage}>Table</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.page}><Text style={styles.titlepage}onPress={()=>{changepage('Order')}}>Order</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.page}  onPress={()=>{changepage('Menu')}}><Text style={styles.titlepage}>Menu</Text></TouchableOpacity>
+                  <TouchableOpacity style={styles.page} onPress={()=>{changepage('Account')}}><Text style={styles.titlepage}>Account</Text></TouchableOpacity>
+              </View>
+  </ImageBackground>
+  )
+}
+
+const styles= StyleSheet.create({
+  content:{
+    flex:1,
+    paddingTop:20,
+    
+    
+  },
+  picback:{
+    
+        width:50,
+        height:50,
+        borderRadius:25,
+        position:'absolute',
+        left:0
+  },
+  top:{
+  
+   
+    alignItems:'center'
+  },
+  title:{
+      fontSize: 50,
+      fontWeight:'bold',
+      color:colors.red
+      },
+    middle:{
+      paddingLeft:25,
+      paddingRight:25
+    },
+ order:{
+  justifyContent:'center',
+  marginTop:20,
+  backgroundColor:'white',
+  boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+  borderRadius:15,
+  padding:10
+},
+rownotable:{
+  borderBottomColor:colors.bg,
+  borderBottomWidth:1,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignItems:'center'
+},
+notable:{
+  fontSize:18
+},
+numround:{
+  fontSize:14,
+  color:colors.dim
+},
+columnorder:{
+  flexDirection:'row',
+  justifyContent:'space-between',
+   borderBottomColor:colors.bg,
+  borderBottomWidth:1,
+  
+},
+rowmenu:{
+  flexDirection:'row',
+  justifyContent:'space-between',
+},
+column:{
+ 
+  width:55
+},
+bottombar:{
+        
+        flexDirection:'row',
+        justifyContent:'space-around',
+         
+    },
+    page:{
+        borderColor:colors.text,
+        borderTopWidth:2,
+        borderWidth:1,
+        flex:4,
+        height:70,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:colors.red,
+    
+       
+    },
+    titlepage:{
+        color:colors.text,
+        fontSize:20,
+        fontWeight:'bold',
+        
+    },
+
+  
+})
+export default Menu
