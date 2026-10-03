@@ -1,115 +1,147 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity , Image,ImageBackground } from 'react-native'
-import { colors } from '../src/style/theme';
-import { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Image,
+  ImageBackground,
+  Alert,
+} from "react-native";
+import { colors } from "../src/style/theme";
+import { useState } from "react";
 
+function Login({ changepage, setSelectedTable }) {
+  const [tab, settab] = useState("client");
+  const [tableNo, setTableNo] = useState("");
 
+  const screen = () => {
+    if (tab === "client") {
+      const num = parseInt(tableNo, 10);
 
-function Login({changepage}) {
-    const [tab,settab] = useState('client')
-    const screen=()=>{
-        if(tab==='client'){
-            console.log('client')
-        }else{
-            changepage('TableMap');
-        }
+      if (isNaN(num) || num < 1 || num > 15) {
+        Alert.alert("แจ้งเตือน", "กรุณากรอกรหัสโต๊ะให้ถูกต้อง (1 - 15)");
+        return;
+      }
+
+      setSelectedTable(num);
+      changepage("SeenMenu");
+    } else {
+      changepage("TableMap");
     }
-    return (
-        <ImageBackground source={require('../photo/830c09e434271912718f7b3d830fc274.jpg')} style={styles.login}>
-            <View style={styles.top}>
-                <Image style={styles.logo} source={require('../photo/OIP.webp')}/>
-            <View >
-                    <Text style={styles.welcome}>{tab==='client'?'Welcome to my Restaurant':'Employee'}</Text>
-            </View>
-                
-            </View >
-            <View style={{marginTop:30 ,alignItems:'center'}}>
-                <TextInput style={styles.input} placeholder={tab==='client'?'รหัสโต๊ะ':'รหัสเข้าสู่ระบบร้าน'}/>
-                <TouchableOpacity style={styles.confirm} onPress={()=>{screen()}}>
-                    <Text style={{color:colors.red,fontSize:15}}>ยืนยัน</Text>
-                </TouchableOpacity>
-            </View>
+  };
+  return (
+    <ImageBackground
+      source={require("../photo/830c09e434271912718f7b3d830fc274.jpg")}
+      style={styles.login}
+    >
+      <View style={styles.top}>
+        <Image style={styles.logo} source={require("../photo/OIP.webp")} />
+        <View>
+          <Text style={styles.welcome}>
+            {tab === "client" ? "Welcome to my Restaurant" : "Employee"}
+          </Text>
+        </View>
+      </View>
+      <View style={{ marginTop: 30, alignItems: "center" }}>
+        <TextInput
+          style={styles.input}
+          placeholder={
+            tab === "client" ? "รหัสโต๊ะ (1-15)" : "รหัสเข้าสู่ระบบร้าน"
+          }
+          keyboardType="number-pad"
+          maxLength={2}
+          value={tableNo}
+          onChangeText={setTableNo}
+        />
 
-            <View style={styles.employee_container}>
-                <View>
-                   
-                    {tab==='client'?
-                        <Text style={styles.role}onPress={()=>{settab('employee')}}>สำหรับพนักงาน</Text>
-                        :
-                        <Text style={styles.role}onPress={()=>{settab('client')}}>สำหรับลูกค้า</Text>
-                        
-                        }
-                    
-                </View>
-            </View>
-        </ImageBackground>
-    )
-}  
+        <TouchableOpacity style={styles.confirm} onPress={screen}>
+          <Text style={{ color: colors.red, fontSize: 15 }}>ยืนยัน</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.employee_container}>
+        <View>
+          {tab === "client" ? (
+            <Text
+              style={styles.role}
+              onPress={() => {
+                settab("employee");
+              }}
+            >
+              สำหรับพนักงาน
+            </Text>
+          ) : (
+            <Text
+              style={styles.role}
+              onPress={() => {
+                settab("client");
+              }}
+            >
+              สำหรับลูกค้า
+            </Text>
+          )}
+        </View>
+      </View>
+    </ImageBackground>
+  );
+}
 
 const styles = StyleSheet.create({
-    login:{
-        flex:1, 
-        padding:20,
-        
-    },
-    top:{
-        marginTop:80,
-        alignItems:'center',
-        justifyContent:'center',
-        
-    },
-    logo:{
-        width:200,
-        height:200,
-        borderRadius:100,
-        marginBottom:20,
-        borderColor:'white',
-        borderWidth:6
-    },
-    welcome:{
-        fontSize:25,
-        fontWeight:'bold',
-        color: colors.bg,
-        boxShadow: '0 0 6px rgba(0, 0, 0, 0.8)',
-        borderRadius:20,
-        padding:5
-       
-    },
-    input:{
-        width:300,
-        backgroundColor:'white',
-        borderRadius:20,
-        paddingLeft:22,
-        boxShadow: '0 0 10px rgba(0,0,0,0.5)',
-    },
-    confirm:{
-        marginTop:'20',
-        padding:10,
-        width:100,
-        backgroundColor:'white',
-        borderRadius:20,
-        alignItems:'center',
-        border:'none',
-        boxShadow:'0 0 10px rgba(0,0,0,0.5)',
-        
-        
-    },
+  login: {
+    flex: 1,
+    padding: 20,
+  },
+  top: {
+    marginTop: 80,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  logo: {
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    marginBottom: 20,
+    borderColor: "white",
+    borderWidth: 6,
+  },
+  welcome: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: colors.bg,
+    boxShadow: "0 0 6px rgba(0, 0, 0, 0.8)",
+    borderRadius: 20,
+    padding: 5,
+  },
+  input: {
+    width: 300,
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingLeft: 22,
+    boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+  },
+  confirm: {
+    marginTop: 20,
+    padding: 10,
+    width: 100,
+    backgroundColor: "white",
+    borderRadius: 20,
+    alignItems: "center",
+    boxShadow: "0 0 10px rgba(0,0,0,0.5)",
+  },
 
   employee_container: {
-    
-    position:'absolute',
-    bottom:40,
+    position: "absolute",
+    bottom: 40,
     left: 0,
-    right:0,
-    alignItems:'center'
-
+    right: 0,
+    alignItems: "center",
   },
-  role:{
-    textDecorationLine:'underline',
-    color:colors.text,
-    fontSize:18,
-    
-    
-  }
+  role: {
+    textDecorationLine: "underline",
+    color: colors.text,
+    fontSize: 18,
+  },
 });
 
-export default Login
+export default Login;

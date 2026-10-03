@@ -60,19 +60,37 @@ export async function openDATABASE(db) {
             FOREIGN KEY (bill_id) REFERENCES Bills(bill_id)
         );
     `)
+
+    //======== เพิ่มไว้เฉยๆ เพราะตอนนี้หมวดหมู่จริงมันว่าง =========//
+    
+    const count = await db.getFirstAsync(`SELECT COUNT(*) AS c FROM Categories`)
+    if (count.c === 0) {
+        await db.execAsync(`
+            INSERT INTO Categories (category_name) VALUES ('อาหารจานเดียว'), ('เครื่องดื่ม');
+
+            INSERT INTO Menu (category_id, name, unit_price) VALUES
+                (1, 'ข้าวผัดกุ้ง', 80),
+                (1, 'ผัดกะเพราหมูสับ', 60),
+                (2, 'ชาเย็น', 40),
+                (2, 'น้ำเปล่า', 10);
+        `)
+    }
 }
+
+//========================================================//
 
 export async function insertTable(db, tables) {
     for (let i = 0; i < tables.length; i++) {
         await db.runAsync(
-            `INSERT OR IGNORE INTO Tables (table_name, table_status) VALUES (?, ?)`,[tables[i].table_name,tables[i].status]
+            `INSERT OR IGNORE INTO Tables (table_name, table_status) VALUES (?, ?)`,
+            [tables[i].table_name, tables[i].status]
         )
     }
 }
 
 export async function getAllTable(db) {
     const result = await db.getAllAsync(`SELECT * FROM Tables`)
-    return result //คืนค่าเป็น Array ที่เก็บ Objects 
+    return result //คืนค่าเป็น Array ที่เก็บ Objects
 }
 
 export async function getAllOrder(db) {
@@ -95,28 +113,31 @@ export async function getAllOrder(db) {
 }
 
 export async function getAllBill(db) {
-    const result = await getAllAsync(`
-        
-    `)
+    const result = await db.getAllAsync(`SELECT * FROM Bills`)
+    return result
 }
 
 export async function createOrderRound(db, bill_id, cartItem) {
     await db.withTransactionAsync(async () => {
-        const roundResult = await db.getFirstAsync(`
-            SELECT MAX(round) AS max_round FROM Order_Rounds WHERE bill_id = ?`, [bill_id]);
-        
-        const currentRound = roundResult?.max_round || 0;
-        const nextRound = currentRound + 1;
+        const roundResult = await db.getFirstAsync(
+            `SELECT MAX(round) AS max_round FROM Order_Rounds WHERE bill_id = ?`,
+            [bill_id]
+        )
 
-        const roundInsert = await db.runAsync(`
-            INSERT INTO Order_Rounds (bill_id, round, order_at) VALUES (?, ?, datetime('now'))`, [bill_id, nextRound]);
-        
-        const orderRoundId = roundInsert.lastInsertRowId;
-        for(const item of cartItem) {
-            await db.runAsync(`
-                INSERT INTO Order_Items (order_round_id, menu_id, amount, unit_price, status) VALUES (?, ?, ?, ?, ?)`, 
-                [orderRoundId, item.menu_id, item.amount, item.unit_price, item.status]);
-            }
-    
-        })
+        const currentRound = roundResult?.max_round || 0
+        const nextRound = currentRound + 1
+
+        const roundInsert = await db.runAsync(
+            `INSERT INTO Order_Rounds (bill_id, round, order_at) VALUES (?, ?, datetime('now'))`,
+            [bill_id, nextRound]
+        )
+
+        const orderRoundId = roundInsert.lastInsertRowId
+        for (const item of cartItem) {
+            await db.runAsync(
+                `INSERT INTO Order_Items (order_round_id, menu_id, amount, unit_price, status) VALUES (?, ?, ?, ?, ?)`,
+                [orderRoundId, item.menu_id, item.amount, item.unit_price, item.status]
+            )
+        }
+    })
 }

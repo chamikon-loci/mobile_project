@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
   },
   tabActive: {
     borderColor: colors.border,
-    backgroundColor: "rgba(235, 62, 27, 0.14)",
+    backgroundColor: "hsla(10, 83%, 36%, 0.66)",
   },
   tabText: { color: colors.text, fontSize: 14 },
   tabTextActive: { color: "#ffffff", fontWeight: "700" },
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     width: "100%",
     aspectRatio: 1,
   },
-  
+
   footer: {
     flexDirection: "row",
     alignItems: "center",
@@ -90,5 +90,30 @@ export const styles = StyleSheet.create({
     color: colors.dim,
     fontSize: 16,
     fontWeight: "500",
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  cartButton: {
+    padding: 4,
+  },
+  badge: {
+    position: "absolute",
+    top: -4,
+    right: -6,
+    minWidth: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: colors.orange,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: "#ffffff",
+    fontSize: 11,
+    fontWeight: "700",
   },
 });
