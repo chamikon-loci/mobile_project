@@ -4,13 +4,7 @@ import { useSQLiteContext } from 'expo-sqlite';
 import { styles } from '../style/billhistorystyle';
 import { colors } from '../style/theme';
 import { getBillDetail, getTotalBillPrice } from '../database/db.js';
-/**ทดสอบ**/
-const test_bill = [
-    { round: 1, menu_name: 'food1', amount: 1, unit_price: 50, total_price: 50, status: 'เสิร์ฟแล้ว' },
-    { round: 1, menu_name: 'food2', amount: 2, unit_price: 60, total_price: 170, status: 'กำลังทำ' },
-    { round: 2, menu_name: 'food3', amount: 1, unit_price: 40, total_price: 40, status: 'รอทำ' },
-];
-/**************/
+
 function BillHistory(props) {
     const db = useSQLiteContext();
 
@@ -36,15 +30,11 @@ function BillHistory(props) {
             if (billDetail && billDetail.length > 0) {
                 setItems(billDetail);
                 setTotalPrice(total);
-            } else {//**ทดสอบ**/
-                setItems(test_bill);
-                const mockTotal = test_bill.reduce((sum, item) => sum + item.total_price, 0);
-                setTotalPrice(mockTotal);
-            }/****/
+            } 
         } catch (e) {
             console.error('เกิดข้อผิดพลาดในการโหลดรายการ', e);
-            setItems(test_bill);//**ทดสอบ**/
-            setTotalPrice(389);
+            setItems([]);
+            setTotalPrice(0);
         } finally {
             setIsLoading(false);
         }
