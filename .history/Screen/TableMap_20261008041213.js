@@ -576,74 +576,74 @@ function TableMapScreen({ changepage }) {
     }
 
     if (selectedTable.table_status === 'occupied' && selectedBill) {
-      return (
-          <ImageBackground
-              source={require('../photo/addtable.webp')}
-              style={style.content}
-          >
-              <View style={style.historyHeaderContainer}>
-                  <BackButton onPress={backToTableMap} />
+    return (
+        <ImageBackground
+            source={require('../photo/addtable.webp')}
+            style={style.content}
+        >
+            <View style={style.historyHeaderContainer}>
+                <BackButton onPress={backToTableMap} />
 
-                  <View style={style.historyTitleBoxOnly}>
-                      <View style={style.titleContainer}>
-                          <Text style={style.title}>
-                              {selectedTable.table_name}
-                          </Text>
-                      </View>
-                  </View>
+                <View style={style.historyTitleBoxOnly}>
+                    <View style={style.titleContainer}>
+                        <Text style={style.title}>
+                            {selectedTable.table_name}
+                        </Text>
+                    </View>
+                </View>
 
-                  <View style={{ width: 50 }} />
-              </View>
+                <View style={{ width: 50 }} />
+            </View>
 
-              <View style={style.contentopen}>
-                  <InfoRow
-                      title="รหัสบิล"
-                      value={selectedBill.bill_id}
-                  />
+            <View style={style.contentopen}>
+                <InfoRow
+                    title="รหัสบิล"
+                    value={selectedBill.bill_id}
+                />
 
-                  <InfoRow
-                      title="ชื่อลูกค้า"
-                      value={selectedBill.customer_name}
-                  />
+                <InfoRow
+                    title="ชื่อลูกค้า"
+                    value={selectedBill.customer_name}
+                />
 
-                  <InfoRow
-                      title="จำนวนคน"
-                      value={`${selectedBill.customer_count} คน`}
-                  />
+                <InfoRow
+                    title="จำนวนคน"
+                    value={`${selectedBill.customer_count} คน`}
+                />
 
-                  <InfoRow
-                      title="เบอร์โทร"
-                      value={selectedBill.phone}
-                  />
+                <InfoRow
+                    title="เบอร์โทร"
+                    value={selectedBill.phone}
+                />
 
-                  <InfoRow
-                      title="เวลาเปิดโต๊ะ"
-                      value={formatThaiDateTime(selectedBill.open_at)}
-                  />
-              </View>
+                <InfoRow
+                    title="เวลาเปิดโต๊ะ"
+                    value={formatThaiDateTime(selectedBill.open_at)}
+                />
+            </View>
 
-              <View style={style.bottomopen}>
-                  <TouchableOpacity
-                      style={style.butopen}
-                      onPress={openHistory}
-                  >
-                      <Text style={style.textbut}>
-                          ประวัติการสั่งอาหาร
-                      </Text>
-                  </TouchableOpacity>
+            <View style={style.bottomopen}>
+                <TouchableOpacity
+                    style={style.butopen}
+                    onPress={openHistory}
+                >
+                    <Text style={style.textbut}>
+                        ประวัติการสั่งอาหาร
+                    </Text>
+                </TouchableOpacity>
 
-                  <TouchableOpacity
-                      style={style.butopen}
-                      onPress={() => setIsMovingTable(true)}
-                  >
-                      <Text style={style.textbut}>
-                          ย้ายโต๊ะ
-                      </Text>
-                  </TouchableOpacity>
-              </View>
-          </ImageBackground>
-      )
-  }
+                <TouchableOpacity
+                    style={style.butopen}
+                    onPress={() => setIsMovingTable(true)}
+                >
+                    <Text style={style.textbut}>
+                        ย้ายโต๊ะ
+                    </Text>
+                </TouchableOpacity>
+            </View>
+        </ImageBackground>
+    )
+}
 
     return (
       <ImageBackground source={require('../photo/addtable.webp')} style={style.content}>

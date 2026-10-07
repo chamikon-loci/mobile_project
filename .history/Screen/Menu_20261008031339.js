@@ -45,7 +45,7 @@ function MenuScreen({ changepage }) {
         const data = await getMenu(db, selectedCategoryId);
         setMenu(data);
       } else {
-        setMenu(await getAllMenu(db));
+        setMenu(await getAllMenugetAllMenu(db));
       }
     } catch {
       console.log("ไม่สามารถโหลดข้อมูลเมนูได้");

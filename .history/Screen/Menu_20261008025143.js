@@ -20,7 +20,7 @@ function MenuScreen({ changepage }) {
   const [tabfood, setTabfood] = useState("listfood");
   const [menu, setMenu] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null); 
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null); // null = อาหารทั้งหมด
 
   const [editMenu, setEditMenu] = useState(null);
   const [menuName, setMenuName] = useState("");
@@ -34,7 +34,7 @@ function MenuScreen({ changepage }) {
   const [addCategoryId, setAddCategoryId] = useState(null);
   const [addImage, setAddImage] = useState(null);
 
- 
+  // กรองเมนูตามหมวดหมู่ที่เลือก
   const filteredMenu = selectedCategoryId
     ? menu.filter((item) => item.category_id === selectedCategoryId)
     : menu;
