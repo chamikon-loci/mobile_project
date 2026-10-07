@@ -1,0 +1,19 @@
+import { View , StyleSheet, TouchableOpacity ,Image} from "react-native"
+
+function Order(){
+  <View style={styles.content}>
+    <View style={styles.top}>
+      <TouchableOpacity>
+        <Image source={require('../photo/back.png')} style={styles.picback}></Image>
+      </TouchableOpacity>
+      <Text style={styles.title}>Order</Text>
+    </View>
+  </View>
+}
+
+const styles= StyleSheet.create({
+  content:{
+    flex:1
+  }
+})
+export default Order

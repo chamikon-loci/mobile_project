@@ -1,0 +1,107 @@
+import { View , StyleSheet, TouchableOpacity ,Image,Text, ImageBackground} from "react-native"
+import { colors } from "../src/style/theme"
+
+function Order({changepage}){
+  return(
+  <ImageBackground source={require('../photo/order.jpg')} style={styles.content}>
+    <TouchableOpacity style={{marginLeft:10}}>
+        <Image source={require('../photo/back.png')} style={styles.picback}></Image>
+      </TouchableOpacity>
+    <View style={styles.top}>
+    <View style={{boxShadow: '0 0 10px rgba(0,0,0,0.5)',paddingLeft:20,paddingRight:20,borderRadius:50}}>
+      <Text style={styles.title}>Order</Text>
+    </View>
+    </View>
+<View style={styles.middle}>
+    <View style={styles.order}>
+      <View style={styles.rownotable}>
+        <Text style={styles.notable}>โต๊ะที่ 1</Text>
+        <Text style={styles.numround}>รอบที่ 1</Text>
+      </View>
+      
+      <View style={styles.columnorder}>
+        <Text style={styles.namefood}>ชื่ออาหาร</Text>
+          <Text style={styles.quantity}>จำนวน</Text>
+          <Text style={styles.price}>ราคาหน่วยละ</Text>
+          <Text style={styles.add}>เพิ่ม</Text>
+          <Text style={styles.tatlprice}>ราคาทั้งหมด</Text>
+          <Text style={styles.note}>หมายเหตุ</Text>
+      </View>
+    
+      <View style={styles.menu}>
+        <View style={styles.rowmenu}>
+          <Text style={styles.namefood}>Cake</Text>
+          <Text style={styles.quantity}>2</Text>
+          <Text style={styles.price}>100</Text>
+          <Text style={styles.add}>add cream 20</Text>
+          <Text style={styles.tatalprice}>200</Text>
+           <Text style={styles.note}>less sweet</Text>
+        </View>
+      </View>
+    </View>
+    </View>
+  </ImageBackground>
+  )
+}
+
+const styles= StyleSheet.create({
+  content:{
+    flex:1,
+    paddingTop:20,
+    
+    
+  },
+  picback:{
+    
+        width:50,
+        height:50,
+        borderRadius:25,
+        position:'absolute',
+        left:0
+  },
+  top:{
+  
+   
+    alignItems:'center'
+  },
+  title:{
+      fontSize: 50,
+      fontWeight:'bold',
+      color:colors.red
+      },
+    middle:{
+      paddingLeft:25,
+      paddingRight:25
+    },
+ order:{
+  justifyContent:'center',
+  marginTop:20,
+  backgroundColor:'white',
+  boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+  borderRadius:15,
+  padding:10
+},
+rownotable:{
+  borderBottomColor:'gray',
+  borderBottomWidth:1,
+  flexDirection:'row',
+  justifyContent:'space-between',
+  alignItems:'center'
+},
+notable:{
+  fontSize:18
+},
+numround:{
+  fontSize:14,
+  color:colors.dim
+},
+rowmenu:{
+  
+},
+columnorder:{
+  flexDirection:'row'
+}
+
+  
+})
+export default Order

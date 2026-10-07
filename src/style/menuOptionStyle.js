@@ -1,0 +1,128 @@
+import { StyleSheet } from "react-native";
+import { colors } from "./theme";
+
+export const styles = StyleSheet.create({
+  bgImage: {
+    flex: 1,
+    padding: 15,
+    paddingTop: 30,
+  },
+  cardContainer: {
+    flex: 1,
+    backgroundColor: colors.bg,
+    borderRadius: 25,
+    padding: 20,
+    justifyContent: "space-between",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  contentScroll: {
+    flex: 1,
+  },
+  menuTitle: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: colors.title,
+    marginBottom: 8,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: colors.dim,
+    marginVertical: 12,
+  },
+  groupTitleInput: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000000",
+    paddingVertical: 6,
+    marginBottom: 10,
+  },
+  optionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 8,
+  },
+  optionLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+    marginRight: 10,
+  },
+  addCircleBtn: {
+    width: 26,
+    height: 26,
+    borderRadius: 13,
+    borderWidth: 2,
+    borderColor: colors.dim,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  addCircleText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: colors.dim,
+    marginTop: -2,
+  },
+  optionInput: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000000",
+    paddingVertical: 4,
+  },
+  priceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  priceInput: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000000",
+    textAlign: "right",
+    width: 60,
+    paddingVertical: 4,
+  },
+  priceUnit: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000000",
+    marginLeft: 4,
+  },
+  footerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginTop: 15,
+    paddingTop: 10,
+  },
+  cancelBtn: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 12,
+  },
+  cancelBtnText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#000000",
+  },
+  saveBtn: {
+    flex: 1,
+    marginLeft: 15,
+    backgroundColor: colors.orange,
+    borderRadius: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  saveBtnText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#ffffff",
+  },
+});
