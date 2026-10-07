@@ -48,6 +48,7 @@ export const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 8,
   },
+  
   optionLeft: {
     flexDirection: "row",
     alignItems: "center",

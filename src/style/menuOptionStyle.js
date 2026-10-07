@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
     padding: 15,
     paddingTop: 30,
   },
+  
   cardContainer: {
     flex: 1,
     backgroundColor: colors.bg,

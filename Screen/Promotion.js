@@ -108,6 +108,7 @@ function PromotionScreen({ changepage }) {
         <Image source={require("../photo/back.png")} style={styles.picback} />
       </TouchableOpacity>
 
+
       <View style={styles.top}>
         <View style={{ paddingLeft: 20, paddingRight: 20, borderRadius: 50 }}>
           <Text style={styles.title}>Promotion</Text>

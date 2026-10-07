@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
         padding: 16, 
         backgroundColor: colors.bg 
     },
+    
     header: { 
         fontSize: 20, 
         fontWeight: 'bold', 

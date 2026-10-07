@@ -271,6 +271,7 @@ function TableMapScreen({ changepage }) {
     }
   };
 
+  
   const executeMoveTable = async (targetTable) => {
     if (!selectedBill || !selectedTable) return;
 

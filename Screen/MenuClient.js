@@ -21,6 +21,7 @@ import {
 } from "../database/db";
 import { SQLiteProvider, useSQLiteContext } from "expo-sqlite";
 
+
 function MenuClient({ changepage, billId }) {
   return (
     <SQLiteProvider onInit={openDATABASE} databaseName={DATABASE_NAME}>

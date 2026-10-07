@@ -50,6 +50,7 @@ function MenuScreen({ changepage }) {
   const [addCategoryId, setAddCategoryId] = useState(null);
   const [addImage, setAddImage] = useState(null);
 
+  
   const loadMenu = async () => {
     try {
       setMenu(await getAllMenu(db));

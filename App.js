@@ -14,6 +14,7 @@ import Promotion from "./Screen/Promotion.js";
 import MenuDetail from "./Screen/MenuDetail.js";
 import ManageOptions from "./Screen/MenuOption.js";
 
+
 export default function App() {
   const [currentpage, setpage] = useState("Login");
   const [billId, setBillId] = useState(null);

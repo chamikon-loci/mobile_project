@@ -62,6 +62,7 @@ function OrderhistoryScreen({ changepage }) {
                                 </Text>
                             </View>
 
+
                             <View style={styles.columnorder}>
                                 {["ชื่อ", "จำนวน", "เพิ่มเติม", "หมายเหตุ"].map(text => (
                                     <Text style={styles.columntop} key={text}>{text}</Text>

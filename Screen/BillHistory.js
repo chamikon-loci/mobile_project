@@ -158,6 +158,7 @@ function BillHistoryScreen({changepage,billId,tableName}) {
       </View>
     </ScrollView>
 
+
     {!loading&&items.length>0&&<View style={{
       position:'absolute',bottom:0,left:0,right:0,backgroundColor:'white',padding:15,
       borderTopWidth:1,borderTopColor:'#ddd',flexDirection:'row',

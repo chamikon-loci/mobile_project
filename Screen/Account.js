@@ -393,4 +393,5 @@ const styles = StyleSheet.create({
   datarank: { flex: 1 },
 })
 
+
 export default Account

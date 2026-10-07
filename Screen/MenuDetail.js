@@ -127,6 +127,7 @@ function MenuDetailContent({ changepage, selectedMenu, billId }) {
           style={styles.contentScroll}
           showsVerticalScrollIndicator={false}
         >
+          
           {/* ชื่อเมนู */}
           <Text style={styles.menuTitle}>{selectedMenu?.menu_name}</Text>
           <View style={styles.divider} />

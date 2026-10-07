@@ -591,6 +591,7 @@ export async function closeBill(db, billId, discount, promotionId) {
             SELECT bill_id, table_id, status
             FROM Bills WHERE bill_id=?
         `,
+        
       [billId],
     );
 

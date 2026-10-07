@@ -13,6 +13,7 @@ export const colors = {
   orange: "#eb3e1b",
 };
 
+
 export const topInset = Platform.select({
   ios: 56,
   android: (StatusBar.currentHeight ?? 24) + 10,

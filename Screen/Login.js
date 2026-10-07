@@ -36,6 +36,7 @@ function LoginScreen({ changepage }) {
           return;
         }
 
+        
         console.log("เข้าสู่ระบบลูกค้า Bill ID:", bill.bill_id);
         console.log("Bill Code:", bill.bill_code);
         changepage("MenuClient", { billId: bill.bill_id });

@@ -19,6 +19,7 @@ import {
 import { styles } from "../src/style/menuOptionStyle";
 import { colors } from "../src/style/theme";
 
+
 function ManageOptions({ changepage, selectedMenu }) {
   return (
     <SQLiteProvider onInit={openDATABASE} databaseName={DATABASE_NAME}>
