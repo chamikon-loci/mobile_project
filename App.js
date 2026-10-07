@@ -45,6 +45,8 @@ export default function App() {
 
       case "TableMap":
         return <TableMap changepage={changepage} />;
+       case "Table":
+        return <TableMap changepage={changepage} />;
 
       case "Order":
         return <Order changepage={changepage} />;
@@ -55,7 +57,7 @@ export default function App() {
       case "Account":
         return <Account changepage={changepage} />;
 
-      case "Promotion":
+      case "Promote":
         return <Promotion changepage={changepage} />;
 
       case "MenuClient":

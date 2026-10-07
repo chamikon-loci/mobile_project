@@ -335,7 +335,7 @@ function AccountScreen({ changepage }) {
 
     <View style={styles.bottombar}>
       {[
-        ['Table', 'TableMap'], ['Order', 'Order'], ['Menu', 'Menu'], ['Account', 'Account'],['Promotion', 'Promotion']
+        ['Table', 'TableMap'], ['Order', 'Order'], ['Menu', 'Menu'], ['Account', 'Account'],['Promote', 'Promote']
       ].map(([text, page]) =>
         <TouchableOpacity key={page} style={styles.page} onPress={() => changepage(page)}>
           <Text style={styles.titlepage}>{text}</Text>

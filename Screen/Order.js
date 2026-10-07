@@ -55,7 +55,7 @@ function OrderScreen({ changepage }) {
         ["Order", "Order"],
         ["Menu", "Menu"],
         ["Account", "Account"],
-        ["Promotion", "Promotion"]
+        ["Promote", "Promote"]
     ]
 
     return (

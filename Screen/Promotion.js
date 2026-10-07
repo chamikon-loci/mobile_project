@@ -255,7 +255,7 @@ function PromotionScreen({ changepage }) {
       </View>
 
       <View style={styles.bottombar}>
-        {["TableMap", "Order", "Menu", "Account", "Promotion"].map(page => (
+        {["TableMap", "Order", "Menu", "Account", "Promote"].map(page => (
           <TouchableOpacity key={page} style={styles.page} onPress={() => changepage(page)}>
             <Text style={styles.titlepage}>{page === "TableMap" ? "Table" : page}</Text>
           </TouchableOpacity>
@@ -266,9 +266,9 @@ function PromotionScreen({ changepage }) {
 }
 
 const styles = StyleSheet.create({
-  content: { flex: 1, resizeMode: "cover" },
+  content: { flex: 1, resizeMode: "cover" ,paddingTop:30 },
   picback: { width: 30, height: 30, marginTop: 40, marginBottom: 10 },
-  top: { alignItems: "center", marginBottom: 10 },
+  top: { alignItems: "center", marginBottom: 10},
   title: { fontSize: 24, fontWeight: "bold", backgroundColor: "rgba(255, 255, 255, 0.8)", paddingHorizontal: 20, borderRadius: 15 },
   table: { flex: 1, backgroundColor: "rgba(255, 255, 255, 0.4)" },
   contentfood: { padding: 10 },
@@ -298,4 +298,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.red
   },
   titlepage: { color: colors.text, fontSize: 15, fontWeight: 'bold' },
+  picback: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    position: "absolute",
+    left: 0,
+  },
 })

@@ -23,8 +23,8 @@ function TableMap({ changepage }) {
 }
 
 const BackButton = ({ onPress }) => (
-  <TouchableOpacity style={style.backButton} onPress={onPress}>
-    <Image source={require('../photo/back.png')} style={style.back} />
+  <TouchableOpacity style={[{width: 50, height: 50, borderRadius: 25}]} onPress={onPress}>
+    <Image source={require('../photo/back.png')} style={style.picback} />
   </TouchableOpacity>
 )
 
@@ -575,55 +575,44 @@ function TableMapScreen({ changepage }) {
       )
     }
 
-    if (selectedTable.table_status === 'occupied') {
-      return (
-        <ImageBackground source={require('../photo/addtable.webp')} style={style.content}>
+    return (
+      <ImageBackground source={require('../photo/addtable.webp')} style={style.content}>
+        <View style={style.historyHeaderContainer}>
           <BackButton onPress={backToTableMap} />
-          <Header title={selectedTable.table_name} />
-
-          <ScrollView contentContainerStyle={{ paddingBottom: 140 }}>
-            <View style={style.contentopen}>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: 20
-              }}>
-                <Text style={style.billPageTitle}>ข้อมูลโต๊ะ</Text>
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: colors.red,
-                    paddingHorizontal: 12,
-                    paddingVertical: 8,
-                    borderRadius: 8
-                  }}
-                  onPress={() => setIsMovingTable(true)}
-                >
-                  <Text style={{ color: colors.text, fontWeight: 'bold' }}>ย้ายโต๊ะ</Text>
-                </TouchableOpacity>
-              </View>
-
-              {selectedBill ? (
-                <>
-                  <InfoRow title="รหัสบิล" value={selectedBill.bill_id} />
-                  <InfoRow title="ชื่อลูกค้า" value={selectedBill.customer_name} />
-                  <InfoRow title="จำนวนคน" value={`${selectedBill.customer_count} คน`} />
-                  <InfoRow title="เบอร์โทร" value={selectedBill.phone} />
-                  <InfoRow title="เวลาเปิดโต๊ะ" value={selectedBill.open_at} />
-                  <InfoRow title="สถานะ" value={selectedBill.status} />
-                </>
-              ) : (
-                <Text style={style.noBillText}>ไม่พบข้อมูลบิลของโต๊ะนี้</Text>
-              )}
+          <View style={style.historyTitleBoxOnly}>
+            <View style={style.titleContainer}>
+              <Text style={style.title}>{selectedTable.table_name}</Text>
             </View>
-          </ScrollView>
-
-          <View style={style.bottomopendata}>
-            <BottomTabs setOpen={openHistory} />
           </View>
-        </ImageBackground>
-      )
-    }
+          <View style={{ width: 50 }} />
+        </View>
+
+        <View style={style.contentopen}>
+          <InputRow title="ชื่อ" value={customerName} onChangeText={setCustomerName} />
+          <InputRow
+            title="จำนวนคน"
+            value={customerCount}
+            onChangeText={setCustomerCount}
+            keyboardType="numeric"
+          />
+          <InputRow
+            title="เบอร์โทร"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+          />
+        </View>
+
+        <View style={style.bottomopen}>
+          <TouchableOpacity style={style.butopen} onPress={backToTableMap}>
+            <Text style={style.textbut}>ยกเลิก</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={style.butopen} onPress={openTable}>
+            <Text style={style.textbut}>เปิดโต๊ะ</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    )
 
     return (
       <ImageBackground source={require('../photo/addtable.webp')} style={style.content}>
@@ -660,12 +649,12 @@ function TableMapScreen({ changepage }) {
 
   return (
     <ImageBackground source={require('../photo/TableMap.jpg')} style={style.content}>
-      <View style={style.mainHeaderContainer}>
+      <View style={style.historyHeaderContainer}>
         <BackButton onPress={() => changepage('Login')} />
-        <View style={style.titleContainer}>
+        <View style={style.historyTitleBoxOnly}>
           <Text style={style.title}>Table</Text>
         </View>
-        <View style={{ width: 45 }} />
+        <View style={{ width: 50 }} />
       </View>
 
       <ScrollView
@@ -710,14 +699,21 @@ const style = StyleSheet.create({
     fontSize: 40, fontWeight: 'bold', color: colors.red, textAlign: 'center'
   },
   mainHeaderContainer: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 15, marginTop: 10, marginBottom: 5
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    paddingHorizontal: 15, marginTop: 5, marginBottom: 10
   },
   mainTitleBoxOnly: { flex: 1, alignItems: 'center' },
   backButton: {
-    width: 45, height: 45, justifyContent: 'center', alignItems: 'center'
+   width: 45, 
+    height: 45, 
+    justifyContent: 'center', 
+    alignItems: 'center',
   },
-  back: { width: 35, height: 35, borderRadius: 17.5 },
+  back: { width: 30, 
+    height: 30, 
+    marginTop: 40, 
+    marginBottom: 10,
+    borderRadius: 15},
   table: {
     width: '30%', height: 60, alignItems: 'center', justifyContent: 'center',
     backgroundColor: colors.dim, borderColor: colors.red, borderWidth: 2,
@@ -874,8 +870,15 @@ const style = StyleSheet.create({
     fontSize:16,fontWeight:'bold',color:colors.card,},
   discard:{
 
-  }
-  
+  },
+ picback: { 
+    width: 50, 
+    height: 50, 
+    borderRadius: 25, 
+    marginTop: 10, 
+    marginBottom: 5 
+  },
+
 })
 
 export default TableMap
