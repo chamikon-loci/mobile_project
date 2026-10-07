@@ -3,7 +3,7 @@ import { colors } from "../src/style/theme"
 import { useState, useEffect } from "react"
 import { SQLiteProvider, useSQLiteContext } from "expo-sqlite"
 import * as ImagePicker from "expo-image-picker"
-import { DATABASE_NAME, getAllMenu, saveMenu, addMenu, openDATABASE, getAllCategories, addCategory, deleteCategory, deleteMenu, updateMenuStatus } from "../database/db"
+import { DATABASE_NAME, getAllMenu, saveMenu, addMenu, openDATABASE, getAllCategories, addCategory, deleteCategory, deleteMenu, updateMenuStatus, getMenu } from "../database/db"
 
 function Menu({ changepage }) {
   return (
@@ -30,6 +30,17 @@ function MenuScreen({ changepage }) {
   const [addPrice, setAddPrice] = useState("")
   const [addCategoryId, setAddCategoryId] = useState(null)
   const [addImage, setAddImage] = useState(null)
+  const [selectedCategory, setSelectedCategory] = useState(null)
+
+  const loadMenuByCategory = async categoryId => {
+    try {
+      const data = await getMenu(db, categoryId)
+      setMenu(data)
+      setSelectedCategory(categoryId)
+    } catch (error) {
+      console.log("ไม่สามารถโหลดข้อมูลเมนูตามหมวดหมู่ได้", error)
+    }
+  }
 
   const loadMenu = async () => {
     try { setMenu(await getAllMenu(db)) }
@@ -117,7 +128,10 @@ function MenuScreen({ changepage }) {
     try {
       await deleteCategory(db, id)
       await loadCategories()
-    } catch { console.log("ลบหมวดหมู่ไม่สำเร็จ") }
+    } catch (error) {
+      console.log("ลบหมวดหมู่ไม่สำเร็จ:", error)
+      alert("ไม่สามารถลบหมวดหมู่ที่มีเมนูอาหารอยู่ได้ กรุณาลบเมนูในหมวดหมู่นี้ออกก่อน")
+    }
   }
 
   const resetAdd = () => {
@@ -139,8 +153,8 @@ function MenuScreen({ changepage }) {
     const AllMenu = async () => {
         try {
             const data = await getAllMenu(db)
-            
             setMenu(data)
+            setSelectedCategory(null) // รีเซ็ตสถานะเป็นทั้งหมด
         } catch (error) {
             console.log("ไม่สามารถโหลดข้อมูลเมนูได้", error)
         }
@@ -160,26 +174,30 @@ function MenuScreen({ changepage }) {
 
       <View style={styles.table}>
         <View style={styles.column}>
-          <ScrollView horizontal>
-           
-              
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             
             <TouchableOpacity style={styles.category} onPress={() => setTabfood("addcategory")}>
               <Text style={styles.categoryname}>+ หมวดหมู่อาหาร</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.category} onPress={AllMenu}>
-                <Text style={styles.categoryname}>อาหารทั้งหมด</Text>
-              </TouchableOpacity>
+            {/* ปุ่มอาหารทั้งหมด */}
+            <TouchableOpacity 
+              style={[styles.category, selectedCategory === null && styles.categoryActive]} 
+              onPress={AllMenu}
+            >
+              <Text style={styles.categoryname}>อาหารทั้งหมด</Text>
+            </TouchableOpacity>
 
+            {/* วนลูปแสดงหมวดหมู่ที่มีอยู่ */}
             {categories.map(category => (
               <View key={category.category_id} style={styles.categoryItem}>
                 <TouchableOpacity
                   style={[
                     styles.categoryButton,
+                    selectedCategory === category.category_id && styles.categoryActive,
                     addCategoryId === category.category_id && styles.categoryButtonActive
                   ]}
-                  onPress={() => setAddCategoryId(category.category_id)}
+                  onPress={() => loadMenuByCategory(category.category_id)}
                 >
                   <Text style={styles.categoryname}>{category.category_name}</Text>
                 </TouchableOpacity>
@@ -214,14 +232,19 @@ function MenuScreen({ changepage }) {
                 {menu.length ? menu.map(item => (
                   <View style={styles.card} key={item.menu_id}>
                     <Image
-                      source={item.image ? { uri: item.image } : require("../photo/OIP.webp")}
-                      style={styles.picfood}
+                        source={
+                            item.image
+                                ? { uri: item.image }
+                                : require("../photo/plus.webp")
+                        }
+                        style={styles.picfood}
+                        resizeMode="cover"
                     />
 
                     <View style={styles.data}>
                       <View style={styles.namedata}>
                         <Text>Name : </Text>
-                        <TextInput style={styles.namefood} value={String(item.menu_name)} editable={false} />
+                        <TextInput style={styles.namefood} value={String(item.name)} editable={false} />
                       </View>
 
                       <View style={styles.namedata}>
@@ -269,8 +292,13 @@ function MenuScreen({ changepage }) {
               <TouchableOpacity onPress={() => pickImage(setEditImage)}>
                 <View style={styles.cardaddfood}>
                   <Image
-                    source={editImage ? { uri: editImage } : require("../photo/plus.webp")}
-                    style={styles.picaddfood}
+                      source={
+                          editImage
+                              ? { uri: editImage }
+                              : require("../photo/plus.webp")
+                      }
+                      style={styles.picaddfood}
+                      resizeMode="cover"
                   />
                   <Text style={{ color: colors.red, marginTop: 5 }}>[ เปลี่ยนรูปภาพ ]</Text>
                 </View>
@@ -482,7 +510,7 @@ const styles = StyleSheet.create({
   fix1: { padding: 5, backgroundColor: "rgb(14, 84, 236)", marginRight: 10, borderRadius: 5, alignItems: "center" },
   edit: { padding: 5, backgroundColor: "rgb(14, 84, 236)", marginRight: 10, borderRadius: 5, alignItems: "center", marginTop: 10, width: 50 },
   table: { flex: 1 },
-  namefood: { borderColor: "rgba(172, 169, 169, 0.9)", fontWeight: "bold", fontSize: 19, borderWidth: 1, height: 25, padding: 0, width: 150, marginBottom: 5, paddingLeft: 10, borderRadius: 15,paddingRight:10 },
+  namefood: { borderColor: "rgba(172, 169, 169, 0.9)", fontWeight: "bold", fontSize: 15, borderWidth: 1, height: 25, padding: 0, width: 150, marginBottom: 5, paddingLeft: 10, borderRadius: 15,paddingRight:10 },
   datafood: { borderColor: "rgba(172, 169, 169, 0.9)", fontSize: 15, borderWidth: 1, height: 25, padding: 0, width: 150, marginBottom: 5, borderRadius: 15, paddingLeft: 10,paddingRight:10 },
   butaddfood: { backgroundColor: colors.text, padding: 5, borderRadius: 20, marginBottom: 5, marginTop: 5, alignItems: "center", boxShadow: "0 0 6px rgba(0, 0, 0, 0.5)" },
   cardaddfood: { borderBottomWidth: 1, borderColor: "rgba(232, 227, 227, 1)", flexDirection: "column", width: "100%", alignItems: "center", marginTop: 10 },
