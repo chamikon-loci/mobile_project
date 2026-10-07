@@ -194,11 +194,17 @@ function TableMapScreen({ changepage }) {
           (bill_id, status, total_price, discount, net_price, promotion_id, payment_time)
           VALUES (?, ?, ?, ?, ?, ?, datetime('now', '+7 hours'))`,
           [
-            selectedBill.bill_id, selectPromotion? selectPromotion.promotion_id : null, 'paid',total,discount,total-discount
-          ])
+            selectedBill.bill_id,
+            'paid',                                                 // 1. status
+            total,                                                  // 2. total_price
+            discount,                                               // 3. discount
+            total - discount,                                       // 4. net_price
+            selectPromotion ? selectPromotion.promotion_id : null   // 5. promotion_id
+          ]
+        )
         await db.runAsync(
           `UPDATE Bills SET status='closed', close_at=datetime('now', '+7 hours')
-        WHERE bill_id=?`,
+          WHERE bill_id=?`,
           [selectedBill.bill_id]
         )
         await db.runAsync(
@@ -495,7 +501,7 @@ function TableMapScreen({ changepage }) {
                                       color: colors.dim,
                                       marginTop: 4
                                     }}>
-                                      รอลูกค้ายกเลิก
+                                      
                                     </Text>
                                   )}
                                 </View>
@@ -683,7 +689,7 @@ function TableMapScreen({ changepage }) {
       </ScrollView>
 
       <View style={style.bottombar}>
-        {['Table', 'Order', 'Menu', 'Account', 'Promotion'].map(page => (
+        {['Table', 'Order', 'Menu', 'Account', 'Promote'].map(page => (
           <TouchableOpacity key={page} style={style.page} onPress={() => changepage(page)}>
             <Text style={style.titlepage}>{page}</Text>
           </TouchableOpacity>
@@ -785,7 +791,7 @@ const style = StyleSheet.create({
   },
   historyTitleBoxOnly: { flex: 1, alignItems: 'center' },
   titlehistory: {
-    fontSize: 24, fontWeight: 'bold', color: colors.red, textAlign: 'center'
+    fontSize: 24, fontWeight: 'bold', color: colors.red, textAlign: 'center',boxShadow: '0 0 10px rgba(0,0,0,0.5)',padding:5,borderRadius:20
   },
   middlehistory: { paddingBottom: 20 },
   orderCard: {
@@ -844,7 +850,7 @@ const style = StyleSheet.create({
   },
   paytext: { fontSize: 16, fontWeight: 'bold', color: '#333' },
   butpay: {
-    borderRadius: 8, paddingVertical: 10, paddingHorizontal: 20,
+    borderRadius: 30, paddingVertical: 10, paddingHorizontal: 20,marginRight:5,marginTop:10
   },
   pay: { fontSize: 16, fontWeight: 'bold', color: colors.text },
   bottomopendata1: {
@@ -863,7 +869,7 @@ const style = StyleSheet.create({
     borderWidth:1, borderColor:'#eee',marginBottom:5,
   },
   totalpaytext:{
-    fontSize:16,fontWeight:'bold',color:colors.green,},
+    fontSize:16,fontWeight:'bold',color:colors.green},
   distext:{
     fontSize:16,fontWeight:'bold',color:colors.card,},
   discard:{

@@ -20,9 +20,10 @@ function OrderScreen({ changepage }) {
     const loadOrder = async () => {
         try {
             const allOrders = await getAllOrder(db)
+            // กรองรายการที่ไม่ใช่ "เสิร์ฟแล้ว" และไม่ใช่ "ยกเลิก"
             const activeOrders = allOrders.filter(item => {
                 const currentStatus = status[item.order_item_id] || item.status
-                return currentStatus !== "เสิร์ฟแล้ว"
+                return currentStatus !== "เสิร์ฟแล้ว" && currentStatus !== "ยกเลิก"
             })
             
             activeOrders.sort((a, b) => new Date(a.order_at) - new Date(b.order_at))

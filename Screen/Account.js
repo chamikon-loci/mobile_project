@@ -150,9 +150,9 @@ function AccountScreen({ changepage }) {
                 <View style={styles.framedata2}>
                   <View style={styles.topdata}><Text style={styles.titledata}>รายได้ทั้งหมด</Text></View>
                   <ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginVertical: 10 }}>
-                    {['All', ...categorySales.map(c => c.category_name || 'อื่นๆ')].map(cat =>
+                    {['All', ...categorySales.map(c => c.category_name || 'อื่นๆ')].map((cat, index) =>
                       <TouchableOpacity
-                        key={cat}
+                        key={`${cat}-${index}`} // ใช้ผสมคำและ index ป้องกัน key ซ้ำ
                         style={[styles.filterBtn, selectedCategory === cat && styles.filterBtnActive]}
                         onPress={() => setSelectedCategory(cat)}>
                         <Text style={[styles.filterBtnText, selectedCategory === cat && styles.filterBtnTextActive]}>
@@ -206,7 +206,7 @@ function AccountScreen({ changepage }) {
           <View style={styles.contentrank}>
             {rankSales.length ? (
               rankSales.map((item, index) => (
-                <View key={item.menu_id || index} style={styles.framerank}>
+                <View key={item.menu_id ? `rank-${item.menu_id}-${index}` : `rank-${index}`} style={styles.framerank}>
 
 
                   <View style={styles.picrank}>
@@ -255,39 +255,80 @@ function AccountScreen({ changepage }) {
             {dateForm('กรอกข้อมูลวันที่ หรือกดดูบิลทั้งหมด', null, true)}
           </View>
 
-          {billHistory.length ? <View style={styles.areabill}>
-            {billHistory.map((item, index) => {
-              const unitPrice = Number(item.unit_price || item.price || 0)
-              const amount = Number(item.amount || item.quantity || 1)
-              const total = Number(item.total_price || (unitPrice * amount))
-              return <View style={styles.order} key={index}>
-                <View style={styles.rowtitlebill}>
-                  <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Bill</Text>
-                  <Text style={styles.numbill}>รหัสบิล : {item.bill_id}</Text>
-                  <Text style={styles.numbill}>โต๊ะ : {item.table_name || '-'}</Text>
-                  <Text style={styles.numbill}>เวลาเปิด : {item.open_at}</Text>
-                  <Text style={styles.numbill}>เวลาปิด : {item.close_at || '-'}</Text>
-                </View>
-                <View style={styles.bill}>
-                  <View style={styles.columndata}>
-                    <Text style={styles.columnname1}>รายการอาหาร</Text>
-                    <Text style={styles.columnname2}>ราคา</Text>
-                    <Text style={styles.columnname3}>จำนวน</Text>
-                    <Text style={styles.columnname4}>ราคารวม</Text>
+          {billHistory.length ? (
+            <View style={styles.areabill}>
+              {billHistory.map((bill, index) => {
+                const totalAmount = Number(bill.total_amount || 0);
+
+                return (
+                  <View style={styles.order} key={bill.bill_id || index}>
+                    <View style={styles.rowtitlebill}>
+                      <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Bill</Text>
+                      <Text style={styles.numbill}>รหัสบิล : {bill.bill_id}</Text>
+                      <Text style={styles.numbill}>โต๊ะ : {bill.table_name || '-'}</Text>
+                      <Text style={styles.numbill}>เวลาเปิด : {bill.open_at}</Text>
+                      <Text style={styles.numbill}>เวลาปิด : {bill.close_at || '-'}</Text>
+                    </View>
+
+                    <View style={styles.bill}>
+                      <View style={styles.columndata}>
+                        <Text style={styles.columnname1}>รายการอาหาร</Text>
+                        <Text style={styles.columnname2}>ราคา</Text>
+                        <Text style={styles.columnname3}>จำนวน</Text>
+                        <Text style={styles.columnname4}>ราคารวม</Text>
+                      </View>
+
+                      <View style={styles.listfood}>
+                        {bill.items && bill.items.length > 0 ? (
+                          bill.items.map((item, itemIdx) => (
+                            <View style={styles.list} key={itemIdx}>
+                              <Text style={styles.columnname1}>{item.menu_name}</Text>
+                              <Text style={styles.columnname2}>{Number(item.unit_price || 0).toFixed(2)}</Text>
+                              <Text style={styles.columnname3}>{item.amount}</Text>
+                              <Text style={styles.columnname4}>{Number(item.total_price || 0).toFixed(2)}</Text>
+                            </View>
+                          ))
+                        ) : (
+                          <View style={styles.list}>
+                            <Text style={styles.columnname1}>ไม่มีรายละเอียดรายการ</Text>
+                            <Text style={styles.columnname2}>-</Text>
+                            <Text style={styles.columnname3}>-</Text>
+                            <Text style={styles.columnname4}>-</Text>
+                          </View>
+                        )}
+                      </View>
+                    </View>
+
+                   <View style={styles.summarybill}>
+                      {/* แสดงโปรโมชันถ้ามีการใช้งาน */}
+                      {bill.promotion_name && (
+                        <Text style={{ fontSize: 14, color: colors.red, fontWeight: 'bold' }}>
+                          โปรโมชัน : {bill.promotion_name}
+                        </Text>
+                      )}
+                      
+                      {/* แสดงส่วนลดถ้ามี */}
+                      {Number(bill.discount || 0) > 0 && (
+                        <Text style={{ fontSize: 14, color: '#666' }}>
+                          ส่วนลด : -{Number(bill.discount).toFixed(2)} บาท
+                        </Text>
+                      )}
+
+                      <Text style={styles.allbill}>
+                        รวมชำระ : {totalAmount.toFixed(2)} บาท
+                      </Text>
+                    </View>
                   </View>
-                  <View style={styles.listfood}><View style={styles.list}>
-                    <Text style={styles.columnname1}>{item.menu_name}</Text>
-                    <Text style={styles.columnname2}>{unitPrice.toFixed(2)}</Text>
-                    <Text style={styles.columnname3}>{amount}</Text>
-                    <Text style={styles.columnname4}>{total.toFixed(2)}</Text>
-                  </View></View>
-                </View>
-                <View style={styles.summarybill}><Text style={styles.allbill}>รวม : {total.toFixed(2)}</Text></View>
+                );
+              })}
+            </View>
+          ) : (
+            <View style={styles.contentdata}>
+              <View style={styles.framedata}>
+                <Text style={styles.emptyText}>ยังไม่มีข้อมูลบิล</Text>
               </View>
-            })}
-          </View> : <View style={styles.contentdata}>
-            <View style={styles.framedata}><Text style={styles.emptyText}>ยังไม่มีข้อมูลบิล</Text></View>
-          </View>}
+            </View>
+          )}
         </ScrollView>}
       </View>
     </View>
