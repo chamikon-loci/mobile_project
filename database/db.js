@@ -61,6 +61,14 @@ export async function openDATABASE(db) {
             FOREIGN KEY(bill_id) REFERENCES Bills(bill_id) ON DELETE CASCADE,
             FOREIGN KEY(menu_id) REFERENCES Menu(menu_id) ON DELETE CASCADE
         );
+        CREATE TABLE IF NOT EXISTS promotion(
+            promotion_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            promotion_name TEXT NOT NULL,
+            discount_type TEXT NOT NULL,
+            discount_value NUMERIC(10, 2) NOT NULL,
+            min_price NUMERIC(10, 2) DEFAULT 0,
+            is_active TEXT DEFAULT 'open'
+        );
         CREATE TABLE IF NOT EXISTS Transactions(
             transaction_id INTEGER PRIMARY KEY AUTOINCREMENT,
             bill_id INTEGER NOT NULL,
@@ -70,20 +78,12 @@ export async function openDATABASE(db) {
             net_price NUMERIC(10, 2),
             promotion_id INTEGER,
             payment_time DATETIME,
-            FOREIGN KEY(bill_id) REFERENCES Bills(bill_id)
+            FOREIGN KEY(bill_id) REFERENCES Bills(bill_id),
+            FOREIGN KEY(promotion_id) REFERENCES promotion(promotion_id)
         );
         CREATE INDEX IF NOT EXISTS idx_menu_category ON Menu(category_id);
         CREATE INDEX IF NOT EXISTS idx_bills_status ON Bills(status);
-
-        CREATE TABLE IF NOT EXISTS promotion(
-            promotion_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            promotion_name TEXT NOT NULL,
-            discount_type TEXT NOT NULL,
-            discount_value NUMERIC(10, 2) NOT NULL,
-            min_price NUMERIC(10, 2) DEFAULT 0,
-            is_active TEXT DEFAULT 'open'
-        );
-
+        
         CREATE TABLE IF NOT EXISTS MenuOptionGroups (
             group_id INTEGER PRIMARY KEY AUTOINCREMENT,
             menu_id INTEGER NOT NULL,
